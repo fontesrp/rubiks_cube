@@ -12,6 +12,7 @@
 #define FACE_SQUARES FACE_ROWS * FACE_COLS
 #define CUBE_FACES 6
 #define CUBE_SQUARES CUBE_FACES * FACE_SQUARES
+#define MAX_MOV_LEN 3
 
 struct cubeFace {
     unsigned char squares[FACE_ROWS][FACE_COLS];
@@ -264,6 +265,56 @@ void faceRotation(struct rubikCube * cube, char faceName, char directionModifier
     }
 }
 
+unsigned char getUserInput(char * faceName, char * directionModifier, char * lengthModifier) {
+
+    // Input must always start with a face name. Optionally, there can be a length and a direction modifier.
+    // Exemples of valid inputs: F, U2, B2'
+
+    int c;
+
+    *faceName = '\0';
+    *lengthModifier = '1';
+    *directionModifier = '\0';
+
+    c = getchar();
+
+    switch (c) {
+    case 'F':
+    case 'U':
+    case 'R':
+    case 'B':
+    case 'L':
+    case 'D':
+        *faceName = c;
+        break;
+    case 'f':
+    case 'u':
+    case 'r':
+    case 'b':
+    case 'l':
+    case 'd':
+        *faceName = c - ('a' - 'A');
+        break;
+    default:
+        return 0;
+    }
+
+    c = getchar();
+
+    if (c >= '0' && c <= '9') {
+        *lengthModifier = c;
+        c = getchar();
+    }
+
+    if (c == '\'') {
+        *directionModifier = c;
+    } else if (c != '\n' && c != '\r' && c != '\0' && c != EOF) {
+        return 0;
+    }
+
+    return 1;
+}
+
 void printCube(struct rubikCube * cube) {
 
     unsigned char face, row, col;
@@ -295,7 +346,11 @@ void initilizeCube(struct rubikCube * cube) {
 
 int main(int argc, const char * argv[]) {
     struct rubikCube cube;
+    char faceName, directionModifier, lengthModifier;
+    unsigned char validInput;
     initilizeCube(&cube);
     printCube(&cube);
+    validInput = getUserInput(&faceName, &directionModifier, &lengthModifier);
+    printf("validInput = %d;\nfaceName = %c;\ndirectionModifier = %c;\nlengthModifier = %c;\n", validInput, faceName, directionModifier, lengthModifier);
     return 0;
 }
