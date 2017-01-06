@@ -265,6 +265,13 @@ void faceRotation(struct rubikCube * cube, char faceName, char directionModifier
     }
 }
 
+void clearInputStream() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) {
+        ;
+    }
+}
+
 unsigned char getUserInput(char * faceName, char * directionModifier, char * lengthModifier) {
 
     // Input must always start with a face name. Optionally, there can be a length and a direction modifier.
@@ -308,6 +315,7 @@ unsigned char getUserInput(char * faceName, char * directionModifier, char * len
 
     if (c == '\'') {
         *directionModifier = c;
+        clearInputStream();
     } else if (c != '\n' && c != '\r' && c != '\0' && c != EOF) {
         return 0;
     }
@@ -319,16 +327,30 @@ void printCube(struct rubikCube * cube) {
 
     unsigned char face, row, col;
 
+    printf("\n{\n");
     for (face = 0; face < CUBE_FACES; face++) {
-        printf("Face %d:\n\n", face);
+        printf("    \"Face %d\": [\n", face);
         for (row = 0; row < FACE_ROWS; row++) {
+            printf("        [");
             for (col = 0; col < FACE_COLS; col++) {
-                printf("%d ", getSquare(cube, face, row, col));
+                printf("%d", getSquare(cube, face, row, col));
+                if (col < FACE_COLS - 1) {
+                    printf(", ");
+                }
+            }
+            printf("]");
+            if (row < FACE_ROWS - 1) {
+                printf(",");
             }
             printf("\n");
         }
-        printf("----------------------------\n\n");
+        printf("    ]");
+        if (face < CUBE_FACES - 1) {
+            printf(",");
+        }
+        printf("\n");
     }
+    printf("}\n\n");
 }
 
 void initilizeCube(struct rubikCube * cube) {
@@ -347,10 +369,17 @@ void initilizeCube(struct rubikCube * cube) {
 int main(int argc, const char * argv[]) {
     struct rubikCube cube;
     char faceName, directionModifier, lengthModifier;
-    unsigned char validInput;
     initilizeCube(&cube);
     printCube(&cube);
-    validInput = getUserInput(&faceName, &directionModifier, &lengthModifier);
-    printf("validInput = %d;\nfaceName = %c;\ndirectionModifier = %c;\nlengthModifier = %c;\n", validInput, faceName, directionModifier, lengthModifier);
+    while (1) {
+        printf("Enter movement: ");
+        while (!getUserInput(&faceName, &directionModifier, &lengthModifier)) {
+            clearInputStream();
+            printf("Invalid input!\n");
+            printf("Enter movement: ");
+        }
+        faceRotation(&cube, faceName, directionModifier, lengthModifier);
+        printCube(&cube);
+    }
     return 0;
 }
