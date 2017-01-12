@@ -330,6 +330,124 @@ unsigned char getUserInput(char * faceName, char * directionModifier, char * len
     return 1;
 }
 
+void setRowColors(struct rubikCube * cube, unsigned char face, unsigned char row, unsigned char * rowColors) {
+    unsigned char col;
+    for (col = 0; col < FACE_COLS; col++) {
+        setSquare(cube, face, row, col, rowColors[col]);
+    }
+}
+
+unsigned char int2color(int color) {
+    switch (color) {
+    case 'R':
+    case 'r':
+        return RED;
+    case 'W':
+    case 'w':
+        return WHITE;
+    case 'B':
+    case 'b':
+        return BLUE;
+    case 'O':
+    case 'o':
+        return ORANGE;
+    case 'G':
+    case 'g':
+        return GREEN;
+    case 'Y':
+    case 'y':
+        return YELLOW;
+    case '\n':
+    case '\0':
+    case EOF:
+        return 127u;
+    default:
+        return 255u;
+    }
+}
+
+unsigned char getRowColors(unsigned char * rowColors) {
+
+    unsigned char color, valid, getAnother, col = 0;
+
+    do {
+        color = getchar();
+        color = int2color(color);
+        switch (color) {
+        case 127u:
+            if (col == FACE_COLS) {
+                // End of valid input
+                getAnother = 0;
+                valid = 1;
+            } else {
+                printf("not enough colors\n");
+                getAnother = 0;
+                valid = 0;
+            }
+            break;
+        case 255u:
+            // Invalid char
+            printf("invalid color\n");
+            clearInputStream();
+            getAnother = 0;
+            valid = 0;
+            break;
+        default:
+            if (col < FACE_COLS) {
+                // set square color
+                rowColors[col] = color;
+                getAnother = 1;
+                col++;
+            } else {
+                printf("too many colors\n");
+                clearInputStream();
+                getAnother = 0;
+                valid = 0;
+            }
+            break;
+        }
+    } while (getAnother);
+
+    return valid;
+}
+
+char getFaceName(unsigned char face) {
+    switch (face) {
+    case F:
+        return 'F';
+    case U:
+        return 'U';
+    case R:
+        return 'R';
+    case B:
+        return 'B';
+    case L:
+        return 'L';
+    case D:
+        return 'D';
+    default:
+        return '\0';
+    }
+}
+
+void getCubeInput(struct rubikCube * cube) {
+
+    unsigned char face, rowColors[FACE_COLS];
+    char faceName, row, col, color;
+
+    for (face = F; face <= D; face++) {
+        printf("Face %c\n\n", getFaceName(face));
+        for (row = 0; row < FACE_ROWS; row++) {
+            printf("%d: ", row);
+            while (!getRowColors(rowColors)) {
+                printf("Invalid input!\n");
+                printf("%d: ", row);
+            }
+            setRowColors(cube, face, row, rowColors);
+        }
+    }
+}
+
 void printCube(struct rubikCube * cube) {
 
     unsigned char face, row, col;
