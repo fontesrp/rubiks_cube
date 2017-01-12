@@ -302,7 +302,13 @@ unsigned char getUserInput(char * faceName, char * directionModifier, char * len
     case 'd':
         *faceName = c - ('a' - 'A');
         break;
+    case '\n':
+    case '\r':
+    case '\0':
+    case EOF:
+        return 0;
     default:
+        clearInputStream();
         return 0;
     }
 
@@ -317,6 +323,7 @@ unsigned char getUserInput(char * faceName, char * directionModifier, char * len
         *directionModifier = c;
         clearInputStream();
     } else if (c != '\n' && c != '\r' && c != '\0' && c != EOF) {
+        clearInputStream();
         return 0;
     }
 
@@ -370,11 +377,11 @@ int main(int argc, const char * argv[]) {
     struct rubikCube cube;
     char faceName, directionModifier, lengthModifier;
     initilizeCube(&cube);
+    getCubeInput(&cube);
     printCube(&cube);
     while (1) {
         printf("Enter movement: ");
         while (!getUserInput(&faceName, &directionModifier, &lengthModifier)) {
-            clearInputStream();
             printf("Invalid input!\n");
             printf("Enter movement: ");
         }
