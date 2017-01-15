@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		B31ACD3B1E1683FF00D2BACE /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = B31ACD3A1E1683FF00D2BACE /* main.c */; };
+		B390FFD21E2BD74A00B4C86F /* rubik_cube.c in Sources */ = {isa = PBXBuildFile; fileRef = B390FFCE1E2BD74A00B4C86F /* rubik_cube.c */; };
+		B390FFD31E2BD74A00B4C86F /* user_io.c in Sources */ = {isa = PBXBuildFile; fileRef = B390FFD01E2BD74A00B4C86F /* user_io.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +27,10 @@
 /* Begin PBXFileReference section */
 		B31ACD371E1683FF00D2BACE /* rubiks_cube */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = rubiks_cube; sourceTree = BUILT_PRODUCTS_DIR; };
 		B31ACD3A1E1683FF00D2BACE /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		B390FFCE1E2BD74A00B4C86F /* rubik_cube.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rubik_cube.c; sourceTree = "<group>"; };
+		B390FFCF1E2BD74A00B4C86F /* rubik_cube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rubik_cube.h; sourceTree = "<group>"; };
+		B390FFD01E2BD74A00B4C86F /* user_io.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = user_io.c; sourceTree = "<group>"; };
+		B390FFD11E2BD74A00B4C86F /* user_io.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = user_io.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,9 +63,29 @@
 		B31ACD391E1683FF00D2BACE /* rubiks_cube */ = {
 			isa = PBXGroup;
 			children = (
-				B31ACD3A1E1683FF00D2BACE /* main.c */,
+				B390FFD51E2BD75E00B4C86F /* Headers */,
+				B390FFD41E2BD75300B4C86F /* Source */,
 			);
 			path = rubiks_cube;
+			sourceTree = "<group>";
+		};
+		B390FFD41E2BD75300B4C86F /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				B31ACD3A1E1683FF00D2BACE /* main.c */,
+				B390FFCE1E2BD74A00B4C86F /* rubik_cube.c */,
+				B390FFD01E2BD74A00B4C86F /* user_io.c */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		B390FFD51E2BD75E00B4C86F /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				B390FFCF1E2BD74A00B4C86F /* rubik_cube.h */,
+				B390FFD11E2BD74A00B4C86F /* user_io.h */,
+			);
+			name = Headers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,6 +144,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B390FFD31E2BD74A00B4C86F /* user_io.c in Sources */,
+				B390FFD21E2BD74A00B4C86F /* rubik_cube.c in Sources */,
 				B31ACD3B1E1683FF00D2BACE /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
