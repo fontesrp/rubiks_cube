@@ -35,7 +35,7 @@ enum faceNames {
     D  // Down
 };
 
-static struct cubeFace {
+struct cubeFace {
     unsigned char squares[FACE_ROWS][FACE_COLS];
 };
 

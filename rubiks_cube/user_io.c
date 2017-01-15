@@ -74,14 +74,14 @@ unsigned char getMovementInput(char * faceName, char * directionModifier, char *
 
 static unsigned char getRowColors(unsigned char * rowColors) {
 
-    unsigned char color, valid, getAnother, col = 0;
+    unsigned char color, getAnother, valid = 0, column = 0;
 
     do {
         color = getchar();
         color = int2color(color);
         switch (color) {
         case 127u:
-            if (col == FACE_COLS) {
+            if (column == FACE_COLS) {
                 // End of valid input
                 getAnother = 0;
                 valid = 1;
@@ -99,11 +99,11 @@ static unsigned char getRowColors(unsigned char * rowColors) {
             valid = 0;
             break;
         default:
-            if (col < FACE_COLS) {
+            if (column < FACE_COLS) {
                 // set square color
-                rowColors[col] = color;
+                rowColors[column] = color;
                 getAnother = 1;
-                col++;
+                column++;
             } else {
                 printf("too many colors\n");
                 clearInputStream();

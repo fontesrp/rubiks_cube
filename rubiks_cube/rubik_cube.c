@@ -275,6 +275,9 @@ void faceRotation(struct rubikCube * cube, char faceName, char directionModifier
     case 'D':
         face = D;
         break;
+    default:
+        face = 255u;
+        break;
     }
 
     // Allow any number modifier, not only '2'
